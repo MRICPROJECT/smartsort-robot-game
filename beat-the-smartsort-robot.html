@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#116149">
+<meta name="description" content="Beat the SmartSort Robot: a fun waste-sorting challenge for the SmartSort student project.">
+<title>Beat the SmartSort Robot | SmartSort</title>
+<style>
+:root{--green:#116149;--green2:#198754;--lime:#d9f99d;--ink:#18312a;--muted:#5c7169;--cream:#f6fbf5;--card:#fff;--blue:#dbeafe;--orange:#ffedd5;--purple:#ede9fe;--line:#dce9df;--shadow:0 12px 32px rgba(17,97,73,.12)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 5% 0%,#e5f8c8 0,transparent 27rem),linear-gradient(180deg,#f7fff5,#edf8f0);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);line-height:1.45}
+button{font:inherit;cursor:pointer}
+.wrap{width:min(760px,100%);margin:auto;padding:16px 14px 32px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.brand-logo{display:block;width:min(210px,54vw);height:auto;max-height:92px;object-fit:contain;background:#fff;border:1px solid #dce9df;border-radius:14px;padding:4px}.top-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.byline{font-size:.72rem;color:var(--green);font-weight:800;letter-spacing:.02em;text-align:right}
+.brand{font-weight:900;letter-spacing:.08em;color:var(--green);font-size:.94rem}
+.pill{border:1px solid #b9d8c6;background:#fff;border-radius:999px;padding:7px 11px;font-size:.78rem;font-weight:750;color:var(--green)}
+.hero{background:linear-gradient(135deg,#116149,#16845b);border-radius:28px;padding:22px 18px;color:white;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#ffffff12;right:-45px;top:-55px}
+.hero-row{display:flex;align-items:center;gap:15px;position:relative;z-index:1}
+.robot{flex:0 0 108px;width:108px;height:108px;background:#f0fbdc;border:5px solid #b9ee84;border-radius:28px;display:grid;place-items:center;box-shadow:0 8px 0 #0b4d3b;transform:rotate(-3deg)}
+.robot svg{width:90px;height:90px}
+h1{font-size:clamp(1.65rem,6vw,2.5rem);line-height:1.04;margin:0 0 9px;font-weight:950;letter-spacing:-.04em}
+.hero p{margin:0;color:#e5fff0;font-size:.98rem}
+.hero .tag{display:inline-block;background:#e2f8a9;color:#194b32;font-weight:850;padding:5px 9px;border-radius:9px;font-size:.75rem;margin-bottom:9px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:11px 8px;text-align:center;box-shadow:0 4px 14px #184b2810}
+.stat b{display:block;font-size:1.2rem;color:var(--green)}.stat span{font-size:.74rem;color:var(--muted);font-weight:650}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);margin-top:13px}
+h2{margin:0 0 9px;font-size:1.25rem;letter-spacing:-.02em}
+.small{font-size:.88rem;color:var(--muted)}
+.btn{border:0;border-radius:14px;padding:13px 16px;font-weight:850;transition:transform .12s,filter .12s}
+.btn:active{transform:scale(.98)}.primary{background:var(--lime);color:#18472f}.dark{background:var(--green);color:white}.light{background:#edf7ef;color:var(--green);border:1px solid #cfe5d5}
+.full{width:100%}.center{text-align:center}
+.hidden{display:none!important}
+.name-input{width:100%;border:1.5px solid #c8ddd0;border-radius:13px;padding:13px;font:inherit;margin:8px 0 12px;background:#fcfffc}
+.bins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:13px 0}
+.bin{border:2px solid transparent;border-radius:16px;padding:12px 6px;min-height:110px;text-align:center;font-weight:850;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.bin .emoji{font-size:2rem;line-height:1.1}.bin small{font-size:.72rem;font-weight:650}
+.bin.wet{background:#e0f5dc;border-color:#a9d9a0;color:#245c2c}.bin.dry{background:#dbeafe;border-color:#9dc5f4;color:#1d4f91}.bin.other{background:#ffedd5;border-color:#fdc98a;color:#8a4512}
+.bin:focus-visible,.btn:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+.question-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:12px}
+.progress{height:8px;background:#e7f0e9;border-radius:999px;overflow:hidden;margin:10px 0 16px}.progress span{display:block;height:100%;background:#7fc94a;width:0;transition:width .2s}
+.item-card{background:linear-gradient(135deg,#f6fbff,#f1f7e9);border:1px solid #dce9df;border-radius:20px;text-align:center;padding:18px 12px;margin:10px 0}
+.item-emoji{font-size:4.3rem;line-height:1.15;display:block;margin-bottom:6px}
+.item-name{font-size:1.32rem;font-weight:900}
+.feedback{border-radius:15px;padding:13px;margin:12px 0;font-size:.92rem}
+.feedback.good{background:#e8f8e8;border:1px solid #b7e4b8}.feedback.bad{background:#fff1e8;border:1px solid #ffd0ad}
+.feedback strong{display:block;margin-bottom:3px}
+.robot-says{display:flex;gap:10px;align-items:flex-start;background:#f3f8f3;border-radius:14px;padding:12px;margin:10px 0}
+.robot-mini{font-size:1.8rem}.robot-says p{margin:0;font-size:.88rem}
+.result-score{font-size:3.5rem;font-weight:950;letter-spacing:-.06em;color:var(--green);line-height:1.1}
+.badge{display:inline-block;background:#e4f8ba;color:#26552b;border-radius:999px;padding:7px 12px;font-weight:850;margin:7px 0 12px}
+ul{padding-left:20px}.note{font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);margin-top:15px;padding-top:12px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:18px 8px}
+@media(max-width:430px){.top{align-items:center}.brand-logo{width:min(170px,48vw);max-height:76px}.top-right .pill{font-size:.66rem;padding:6px 8px}.byline{font-size:.62rem}.wrap{padding:10px 10px 24px}.hero{padding:18px 14px;border-radius:22px}.hero-row{gap:10px}.robot{flex-basis:82px;width:82px;height:82px;border-radius:22px}.robot svg{width:70px;height:70px}.panel{padding:14px;border-radius:18px}.bin{min-height:100px;font-size:.9rem}.bin .emoji{font-size:1.7rem}.stat b{font-size:1.05rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><img class="brand-logo" src="greenloop-logo.webp" alt="GreenLoop Innovations logo"><div class="top-right"><div class="byline">Presents SmartSort</div></div></div>
+  <header class="hero">
+    <div class="hero-row">
+      <div class="robot" aria-label="SmartSort robot mascot">
+        <svg viewBox="0 0 100 100" role="img" aria-label="Friendly green robot">
+          <rect x="24" y="27" width="52" height="48" rx="13" fill="#7ed957" stroke="#1b6544" stroke-width="4"/>
+          <rect x="31" y="37" width="38" height="21" rx="8" fill="#173f35"/>
+          <circle cx="42" cy="47" r="4" fill="#d9ff91"/><circle cx="58" cy="47" r="4" fill="#d9ff91"/>
+          <path d="M43 65 Q50 70 57 65" fill="none" stroke="#1b6544" stroke-width="3" stroke-linecap="round"/>
+          <path d="M50 27 V17" stroke="#1b6544" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="13" r="6" fill="#ffb84d" stroke="#1b6544" stroke-width="3"/>
+          <path d="M24 43 H15 M76 43 H85" stroke="#1b6544" stroke-width="4" stroke-linecap="round"/>
+          <rect x="34" y="75" width="11" height="8" rx="3" fill="#1b6544"/><rect x="55" y="75" width="11" height="8" rx="3" fill="#1b6544"/>
+          <path d="M18 88 Q50 78 82 88" stroke="#1b6544" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M38 4 l3 5 M62 4 l-3 5" stroke="#1b6544" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div><div class="tag">THE 10-QUESTION ECO GAME</div><h1>Beat the<br>SmartSort Robot!</h1><p>Can you sort smarter than a robot? Play, learn and earn your Eco Champion title.</p></div>
+    </div>
+  </header>
+
+  <div class="stats" aria-label="Game details">
+    <div class="stat"><b>10</b><span>Quick questions</span></div>
+    <div class="stat"><b>1–2 min</b><span>Play time</span></div>
+    <div class="stat"><b>Free</b><span>No sign-in</span></div>
+  </div>
+
+  <main>
+    <section id="start" class="panel">
+      <h2>Ready, sorting superstar? 🌱</h2>
+      <p>Choose the best answer for each item. You’ll get points and a short explanation after every question. Some questions are about real-world recycling; others test what our current SmartSort prototype can—and cannot—detect.</p>
+      <label for="playerName"><strong>Player name (optional)</strong></label>
+      <input id="playerName" class="name-input" maxlength="20" autocomplete="off" placeholder="e.g. Eco Explorer">
+      <button id="startBtn" class="btn dark full">Start the challenge 🚀</button>
+      <p class="small">No name is required. Your score stays on this device and is not sent anywhere.</p>
+      <div class="note"><strong>Remember:</strong> Local waste rules can vary. Follow the bins and guidance provided by your school, city or event organiser.</div>
+    </section>
+
+    <section id="game" class="panel hidden" aria-live="polite">
+      <div class="question-top"><span class="pill" id="qCounter">QUESTION 1 / 10</span><strong id="scoreLabel">⭐ 0 points</strong></div>
+      <div class="progress" aria-label="Question progress"><span id="progressBar"></span></div>
+      <div class="item-card"><span class="item-emoji" id="itemEmoji">🍌</span><div class="item-name" id="itemName">Banana peel</div><p class="small" id="itemPrompt">Which category is the best fit?</p></div>
+      <div id="binChoices" class="bins">
+        <button class="bin wet" data-answer="wet"><span class="emoji">🍃</span>Wet<small>Organic scraps</small></button>
+        <button class="bin dry" data-answer="dry"><span class="emoji">📄</span>Dry<small>Paper & plastic</small></button>
+        <button class="bin other" data-answer="other"><span class="emoji">🥫</span>Other<small>Metal / rule-based</small></button>
+      </div>
+      <div id="feedback" class="feedback hidden" role="status"></div>
+      <button id="nextBtn" class="btn dark full hidden">Next question →</button>
+    </section>
+
+    <section id="result" class="panel hidden center" aria-live="polite">
+      <div style="font-size:3rem">🏆</div><h2 id="resultHeading">Eco Champion!</h2>
+      <p class="small" id="resultName"></p><div class="result-score"><span id="finalScore">0</span>/10</div>
+      <div class="badge" id="resultBadge">Sorting Star</div>
+      <p id="resultMessage">Great effort!</p>
+      <div class="robot-says"><span class="robot-mini">🤖</span><p><strong>Robot’s reminder</strong><br>Smart sorting starts with us. Sensors can help, but they can make mistakes—and good waste management also needs the right collection and processing systems.</p></div>
+      <button id="againBtn" class="btn dark full">Play again 🔁</button>
+      <button id="shareBtn" class="btn light full" style="margin-top:8px">Share your score</button>
+      <div class="note">SmartSort is a developing student prototype. The current model uses moisture and suitable-metal detection with programmed rules; it does not use a camera or AI to identify every material.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Meet the real SmartSort 🤖</h2>
+      <p class="small">Our student prototype uses an IR sensor to detect an item, a moisture sensor as a clue for wet waste, an inductive sensor to detect suitable metals, and a controller to move a diverter towards a bin.</p>
+      <div class="bins" aria-label="Three prototype categories">
+        <div class="bin wet"><span class="emoji">🍌</span>Wet<small>Food scraps & peels</small></div>
+        <div class="bin dry"><span class="emoji">🧴</span>Dry<small>Paper & suitable plastic</small></div>
+        <div class="bin other"><span class="emoji">🥫</span>Other<small>Suitable metals / assigned items</small></div>
+      </div>
+      <p class="small"><strong>Important limitation:</strong> moisture is not the same as “food”, and the metal sensor does not detect every kind of waste. The current demonstration is intended for one item at a time, not a mixed handful. Public-space use would require further design, testing and safety checks.</p>
+    </section>
+  </main>
+  <footer><strong>SmartSort • Less effort. Smarter segregation. A cleaner future.</strong><br><span><strong>Student Innovators (Grade 5)</strong><br>Arnav Avani Amey Gadgil<br>Pravek Prajakta Vivek Tatiya<br>Espalier Heritage School</span></footer>
+</div>
+<script>
+(function(){
+"use strict";
+const questions=[
+ {emoji:"🍌",name:"Banana peel",prompt:"Which category is the best fit?",correct:"wet",explain:"Food scraps and fruit peels are commonly treated as wet/organic waste where the local collection system accepts them."},
+ {emoji:"📰",name:"Old newspaper",prompt:"Which category is the best fit?",correct:"dry",explain:"Clean, dry paper is usually collected with dry recyclables. Keep it dry and follow local collection instructions."},
+ {emoji:"🥫",name:"Empty metal can",prompt:"Which category would our prototype assign if its metal sensor detects it and no moisture is detected?",correct:"other",explain:"The inductive sensor can detect suitable metal objects. The prototype’s rule assigns detected metal to Other when the wet rule has not already taken priority."},
+ {emoji:"💧",name:"A plastic bottle with water droplets outside",prompt:"Will our moisture sensor definitely know it is plastic?",correct:"dry",explain:"No. The sensor senses moisture, not the material. Our simple rules may misclassify a wet plastic item. In this quiz, Dry is the material category—not a guarantee of what the prototype would choose."},
+ {emoji:"🥦",name:"Vegetable peel",prompt:"Which category is the best fit?",correct:"wet",explain:"Vegetable peels are commonly treated as wet/organic waste where composting or organic-waste collection is available."},
+ {emoji:"📦",name:"Clean cardboard box",prompt:"Which category is the best fit?",correct:"dry",explain:"Clean, dry cardboard is a dry recyclable in many collection systems. Greasy or food-soiled cardboard may be handled differently locally."},
+ {emoji:"🔩",name:"A small steel bolt",prompt:"If it is within the sensor’s detection range, what may the inductive sensor do?",correct:"other",explain:"An inductive sensor detects suitable metal objects. Its performance depends on the sensor type, metal and distance."},
+ {emoji:"🧻",name:"A tissue with water on it",prompt:"What does this reveal about a moisture-only clue?",correct:"wet",explain:"The moisture sensor may detect wetness, but it cannot tell whether the item is food, paper or plastic. This is one reason the prototype is limited."},
+ {emoji:"🧴",name:"A clean, empty plastic bottle",prompt:"In ordinary waste sorting, which category is usually the best fit?",correct:"dry",explain:"Many clean, empty plastic bottles are collected as dry recyclables, depending on local rules. The current prototype does not identify plastic directly."},
+ {emoji:"🧃",name:"A clean, empty juice carton",prompt:"For this simple game, which category is the best fit? Follow your local collection rules.",correct:"dry",explain:"Packaging is often collected with dry waste, but local rules differ. Our current sensors do not recognise cartons directly; if neither moisture nor suitable metal is detected, the prototype sends the item to Dry by default."}
+];
+const labels={wet:"Wet",dry:"Dry",other:"Other"};
+let order=[],index=0,score=0,answered=false,player="";
+const $=id=>document.getElementById(id);
+const start=$("start"),game=$("game"),result=$("result");
+function show(which){[start,game,result].forEach(s=>s.classList.add("hidden"));which.classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function begin(){player=$("playerName").value.trim().slice(0,20);order=shuffle(questions.map((_,i)=>i));index=0;score=0;answered=false;$("scoreLabel").textContent="⭐ 0 points";show(game);render();}
+function render(){
+ const q=questions[order[index]];answered=false;
+ $("qCounter").textContent=`QUESTION ${index+1} / ${questions.length}`;
+ $("progressBar").style.width=`${index/questions.length*100}%`;
+ $("itemEmoji").textContent=q.emoji;$("itemName").textContent=q.name;$("itemPrompt").textContent=q.prompt;
+ $("feedback").className="feedback hidden";$("feedback").textContent="";$("nextBtn").classList.add("hidden");
+ document.querySelectorAll("#binChoices button").forEach(b=>{b.disabled=false;b.style.opacity="1";b.style.outline="";});
+}
+function choose(answer){
+ if(answered)return;answered=true;const q=questions[order[index]],correct=answer===q.correct;
+ if(correct)score++;
+ $("scoreLabel").textContent=`⭐ ${score} point${score===1?"":"s"}`;
+ document.querySelectorAll("#binChoices button").forEach(b=>{b.disabled=true;if(b.dataset.answer!==q.correct)b.style.opacity=".55";else b.style.outline="3px solid #198754";});
+ const f=$("feedback");f.className="feedback "+(correct?"good":"bad");
+ f.innerHTML=`<strong>${correct?"🎉 Correct! +1 point":"🤖 Not quite!"} Best answer: ${labels[q.correct]}.</strong>${q.explain}`;
+ $("nextBtn").textContent=index===questions.length-1?"See my score 🏆":"Next question →";$("nextBtn").classList.remove("hidden");
+}
+function finish(){
+ show(result);$("finalScore").textContent=score;$("resultName").textContent=player?`Nice work, ${escapeHtml(player)}!`:"Challenge completed!";
+ let badge,msg;
+ if(score>=9){badge="🌟 SmartSort Master";msg="Fantastic sorting knowledge! You also know that sensors have limits."}
+ else if(score>=7){badge="♻️ Eco Champion";msg="Great work! You’re thinking carefully about waste and how technology helps."}
+ else if(score>=4){badge="🌱 Sorting Star";msg="Good effort! Read the explanations and play again to level up."}
+ else{badge="🌍 Eco Explorer";msg="Every expert starts by learning. Try again and discover how smarter sorting works."}
+ $("resultBadge").textContent=badge;$("resultMessage").textContent=msg;$("progressBar").style.width="100%";
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+$("startBtn").addEventListener("click",begin);
+document.querySelectorAll("#binChoices button").forEach(b=>b.addEventListener("click",()=>choose(b.dataset.answer)));
+$("nextBtn").addEventListener("click",()=>{if(index<questions.length-1){index++;render();}else finish();});
+$("againBtn").addEventListener("click",()=>{show(start);$("playerName").value=player;});
+$("shareBtn").addEventListener("click",async()=>{
+ const text=`I scored ${score}/10 on the SmartSort Robot Challenge! 🤖♻️ Let's make Kumbh Mela 2027 clean & green!`;
+ try{if(navigator.share){await navigator.share({title:"SmartSort Robot Challenge",text});}
+ else if(navigator.clipboard){await navigator.clipboard.writeText(text);$("shareBtn").textContent="Score message copied ✓";}
+ else{window.prompt("Copy your score:",text);}}catch(e){}
+});
+})();
+</script>
+</body>
+</html>
